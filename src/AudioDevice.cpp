@@ -715,8 +715,12 @@ namespace extemp {
 	if(err != paNoError) {
    	    ascii_text_color(1,1,10);            
 	    std::cerr << "Initialization Error: " << Pa_GetErrorText(err) << std::endl;
-	    std::cerr << "AudioDevice: " << (Pa_GetDeviceInfo( outputDevice ))->name << std::endl;
-	    ascii_text_color(0,7,10); 
+	    PaDeviceInfo const * device_info = Pa_GetDeviceInfo(outputDevice);
+	    if (device_info) {
+		std::cerr << "AudioDevice: " << device_info->name << std::endl;
+	    } else {
+		std::cerr << "AudioDevice: no information available for sound device" << std::endl;
+	    }
 	    exit(1);
 	}
         //UNIV::CHANNELS = 2;
